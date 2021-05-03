@@ -9,8 +9,8 @@ import HomeBody from './HomeBody';
 const Home = () => {
     return (
         <div>
-            <header className="styles.hero">
-                <div className="styles.content">
+            <header className={styles.hero}>
+                <div className={styles.content}>
                     <h1>Comprame la Casa</h1>
                 </div>
             </header>
