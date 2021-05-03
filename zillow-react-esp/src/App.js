@@ -1,9 +1,15 @@
-import './App.css';
+// css
+import './css/App.css';
+
+// components
+import Header from './components/Header';
+import Home from './components/Home';
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello world</h1>
+      <Header />
+      <Home />
     </div>
   );
 }
