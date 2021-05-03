@@ -1,16 +1,17 @@
 import React from 'react';
 
 // css
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 
-const CardInformation = () => {
+const CardInformation = (props) => {
     return (
         <Card style={{width: '18rem'}}>
             <Card.Body>
-                <Card.Title>Buy</Card.Title>
+                <Card.Title>{props.title}</Card.Title>
                 <Card.Text>
-                    Find your place with an immersive photo experience and the most listings, including things you won't find anywhere else
+                    {props.text}
                 </Card.Text>
+                <Button variant="outline-primary">{props.button}</Button>
             </Card.Body>
         </Card>
     );

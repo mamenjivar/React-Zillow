@@ -9,7 +9,7 @@ const Header = () => {
             <Container>
                 <Navbar.Brand href="#home">Compramelo</Navbar.Brand>
 
-                <Nav className="m-auto">
+                <Nav className="ml-auto">
                     <Nav.Link>Home</Nav.Link>
                     <Nav.Link>Buy</Nav.Link>
                     <Nav.Link>Sell</Nav.Link>
