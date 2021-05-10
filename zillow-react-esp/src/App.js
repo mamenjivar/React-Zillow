@@ -1,15 +1,32 @@
+import { Route, Switch, Redirect } from 'react-router-dom';
+
 // css
 import './css/App.css';
 
+// pages
+import Welcome from './pages/Welcome';
+import Compra from './pages/Compra';
+
 // components
 import Header from './components/Header';
-import Home from './components/Home';
 
 function App() {
   return (
     <div>
       <Header />
-      <Home />
+      <main>
+        <Switch>
+          <Route path='/' exact>
+            <Redirect to='/Welcome' />
+          </Route>
+          <Route path='/welcome'>
+            <Welcome />
+          </Route>
+          <Route path='/compra'>
+            <Compra />
+          </Route>
+        </Switch>
+      </main>
     </div>
   );
 }

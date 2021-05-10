@@ -1,10 +1,10 @@
 import React from 'react';
 
 // css
-import styles from '../css/Home.module.css';
+import styles from '../css/Welcome.module.css';
 
 // components
-import HomeBody from './HomeBody';
+import HomeBody from '../components/HomeBody';
 
 const Home = () => {
     return (
