@@ -13,14 +13,10 @@ const Header = () => {
                 </Navbar.Brand>
 
                 <Nav className="ml-auto">
-                    <Nav.Link>
-                        <NavLink to='/welcome'>Home</NavLink>
-                    </Nav.Link>
-                    <Nav.Link>
-                        <NavLink to='/compra'>Buy</NavLink>
-                    </Nav.Link>
-                    <Nav.Link>Sell</Nav.Link>
-                    <Nav.Link>Contact</Nav.Link>
+                    <NavLink className='nav-link' to='/welcome'>Home</NavLink>
+                    <NavLink className='nav-link' to='/compra'>Buy</NavLink>
+                    <NavLink className='nav-link' to='/vender'>Vender</NavLink>
+                    <NavLink className='nav-link' to='/'>Contact</NavLink>
                 </Nav>
             </Container>
         </Navbar>
