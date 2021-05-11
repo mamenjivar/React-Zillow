@@ -35,6 +35,7 @@ const Map = () => {
     const [selected, setSelected] = useState(null);
 
     // marker state
+    // add a new marker to object array
     const onMapClick = useCallback((event) => {
         setMarkers(currentState => [...currentState, {
             lat: event.latLng.lat(),
