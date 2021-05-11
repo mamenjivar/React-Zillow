@@ -3,7 +3,13 @@ import React, { useState, useCallback, useRef } from 'react';
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
+
+// css
 import '@reach/combobox/styles.css';
+import { Row } from 'react-bootstrap';
+
+// components
+import View from '../components/View';
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -20,20 +26,21 @@ const options = {
 }
 
 const Map = () => {
+    const { isLoaded, loadError } = useLoadScript({
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+        libraries
+    });
+
     const [ markers, setMarkers] = useState([]);
     const [selected, setSelected] = useState(null);
 
+    // marker state
     const onMapClick = useCallback((event) => {
         setMarkers(currentState => [...currentState, {
             lat: event.latLng.lat(),
             lng: event.latLng.lng()
         }])
     }, []);
-
-    const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-        libraries
-    });
 
     const mapRef = useRef();
     const onMapLoad = useCallback((map) => {
@@ -83,6 +90,12 @@ const Map = () => {
                     </div>
                 </InfoWindow>)}
             </GoogleMap>
+
+            <Row>
+                {markers.map((data) => (
+                    <View lat={data.lat} lng={data.lng} />
+                ))}
+            </Row>
         </div>
     );
 };
