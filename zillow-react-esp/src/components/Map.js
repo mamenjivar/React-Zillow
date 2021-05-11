@@ -89,7 +89,7 @@ const Map = () => {
 
 export default Map;
 
-function Search(panTo) {
+function Search({panTo}) {
     const {ready, value, suggestions: { status, data }, setValue, clearSuggestions} = usePlacesAutocomplete({
         requestOptions: {
             location: { 
@@ -103,9 +103,13 @@ function Search(panTo) {
     return( 
     <Combobox
         onSelect={async (address) => {
+            setValue(address, false);
+            clearSuggestions();
+
             try {
                 const results = await getGeocode({ address });
                 const { lat, lng } = await getLatLng(results[0]);
+                console.log(lat, lng);
                 panTo({ lat, lng });
 
             }catch(error) {
@@ -122,13 +126,15 @@ function Search(panTo) {
             placeholder="Enter an address"
         />
         <ComboboxPopover>
-            {status === "OK" && 
-                data.map(({id, description}) => (
-                    <ComboboxOption 
-                        key={id}
-                        value={description}
-                    />
-            ))}
+            <ComboboxList>
+                {status === "OK" && 
+                    data.map(({id, description}) => (
+                        <ComboboxOption 
+                            key={id}
+                            value={description}
+                        />
+                ))}
+            </ComboboxList>
         </ComboboxPopover>
     </Combobox>
     )
