@@ -22,16 +22,13 @@ const Vender = (props) => {
     const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredEmail, setEnteredEmail] = useState('');
     const [enteredPhone, setEnteredPhone] = useState('');
+    const [enteredDescription, setEnteredDescription] = useState('');
 
     const [lat, setLat] = useState('');
     const [long, setLong] = useState('');
 
     const nameChangeHandler = (event) => {
         setEnteredName(event.target.value);
-    }
-
-    const locationChangeHandler = (address) => {
-        setEnteredLocation(address);
     }
 
     const priceChangeHandler = (event) => {
@@ -44,6 +41,10 @@ const Vender = (props) => {
 
     const phoneChangeHandler = (event) => {
         setEnteredPhone(event.target.value);
+    }
+
+    const descriptionChangeHandler = (event) => {
+        setEnteredDescription(event.target.value);
     }
 
     const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
@@ -81,6 +82,7 @@ const Vender = (props) => {
         event.preventDefault();
 
         const submitNewProperty = {
+            id: Math.random(),
             name: enteredName,
             location: enteredLocation,
             lat: lat,
@@ -88,13 +90,14 @@ const Vender = (props) => {
             price: enteredPrice,
             email: enteredEmail,
             phone: enteredPhone,
-            id: Math.random()
+            description: enteredDescription
         }
 
         console.log(submitNewProperty);
         // pass data upward
         props.addNewLocation(submitNewProperty);
 
+        // clear out form after submit
         setEnteredName('');
         setEnteredLocation('');
         setLat('');
@@ -103,6 +106,7 @@ const Vender = (props) => {
         setEnteredEmail('');
         setEnteredPhone('');
         setValue('');
+        setEnteredLocation('');
     }
 
     return (
@@ -143,13 +147,6 @@ const Vender = (props) => {
                         </ComboboxPopover>
                     </Combobox>
                     <GoogleMap ></GoogleMap>
-                    {/* <SearchAddress pushLocationDataUp={locationChangeHandler} clearDataDown={submittedForm}/> */}
-                    {/* <FormControl 
-                        type="text"
-                        placeholder="Enter location of property"
-                        value={enteredLocation}
-                        onChange={locationChangeHandler}
-                    /> */}
                 </FormGroup>
                 <FormGroup>
                     <FormLabel>Price</FormLabel>
@@ -176,6 +173,16 @@ const Vender = (props) => {
                         placeholder="Enter your phone number"
                         value={enteredPhone}
                         onChange={phoneChangeHandler}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <FormLabel>Property Description</FormLabel>
+                    <FormControl 
+                        as="textarea" 
+                        rows={3} 
+                        placeholder="Enter property description here"
+                        value={enteredDescription}
+                        onChange={descriptionChangeHandler}
                     />
                 </FormGroup>
                 <Button variant="primary" type="submit">Submit</Button>
