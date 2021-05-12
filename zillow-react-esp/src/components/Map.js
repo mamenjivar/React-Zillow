@@ -25,7 +25,7 @@ const options = {
     zoomControl: true
 }
 
-const Map = () => {
+const Map = (props) => {
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries
@@ -33,6 +33,8 @@ const Map = () => {
 
     const [ markers, setMarkers] = useState([]);
     const [selected, setSelected] = useState(null);
+
+    // const [propertyList, setPropertyList] = useState(props.propertyListings);
 
     // marker state
     // add a new marker to object array
@@ -69,9 +71,10 @@ const Map = () => {
                 onClick={onMapClick}
                 onLoad={onMapLoad}
             >
-                {markers.map((marker) => (
+                {props.propertyListings.map((marker) => (
                     <Marker
-                        position={{lat: marker.lat, lng: marker.lng}}
+                        key={marker.id}
+                        position={{lat: marker.lat, lng: marker.long}}
                         onClick={() => {
                             setSelected(marker)
                         }}
@@ -80,21 +83,21 @@ const Map = () => {
 
                 {selected && (
                 <InfoWindow 
-                    position={selected}
+                    position={{lat: selected.lat, lng: selected.long}}
                     onCloseClick={() => {
                         setSelected(null);
                     }}
                 >
                     <div>
-                        <h2>Bear Spotted!</h2>
-                        <p>over there!</p>
+                        <h3>{selected.location}</h3>
+                        <p>Vendedor: {selected.name}<br/> Precio: {selected.price}</p>
                     </div>
                 </InfoWindow>)}
             </GoogleMap>
 
             <Row>
-                {markers.map((data) => (
-                    <View lat={data.lat} lng={data.lng} />
+                {props.propertyListings.map((data) => (
+                    <View key={data.id} name={data.name} location={data.location} price={data.price} email={data.email} phone={data.phone} />
                 ))}
             </Row>
         </div>

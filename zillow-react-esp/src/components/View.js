@@ -10,13 +10,13 @@ const View = (props) => {
             <Col>
                 <Card style={{ width: '18rem' }}>
                     <Card.Body>
-                        <Card.Title>Property Listing</Card.Title>
+                        <Card.Title>{props.location}</Card.Title>
                         <Card.Text>
-                            <p>latitude: {props.lat}</p>
-                            <p>longitude: {props.lng}</p>
+                                <p>Name: {props.name}</p>
+                                <p>Price: {props.price}</p>
                         </Card.Text>
                         <Button variant="outline-primary">
-                            Buy property
+                            View Property
                         </Button>
                     </Card.Body>
                 </Card>
