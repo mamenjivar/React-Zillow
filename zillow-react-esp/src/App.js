@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 // css
@@ -11,7 +12,18 @@ import Vender from './pages/Vender';
 // components
 import Header from './components/Header';
 
+// local DB
+import property_DB from './local_DB/property_DB';
+
 function App() {
+  const [items, setItems] = useState(property_DB);
+
+  const addNewLocationHandler= (item) => {
+    setItems(prevItem => {
+      return [...prevItem, item]
+    });
+  };
+
   return (
     <div>
       <Header />
@@ -24,10 +36,10 @@ function App() {
             <Welcome />
           </Route>
           <Route path='/compra'>
-            <Compra />
+            <Compra listProperties={items}/>
           </Route>
           <Route path='/vender'>
-            <Vender />
+            <Vender addNewLocation={addNewLocationHandler}/>
           </Route>
         </Switch>
       </main>

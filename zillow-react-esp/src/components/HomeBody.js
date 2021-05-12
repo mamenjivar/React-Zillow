@@ -1,5 +1,5 @@
 import React from 'react';
-import CARD_INFO from '../cardInfo_DB';
+import CARD_INFO from '../local_DB/cardInfo_DB';
 
 // css
 import { Container, Row } from 'react-bootstrap';
