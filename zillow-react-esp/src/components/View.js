@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Card, Button, Col } from 'react-bootstrap';
+import { Card, Button, CardDeck } from 'react-bootstrap';
 
 // * Will just show listings of all properties
 // * Map -> View component
 const View = (props) => {
     return (
         <div>
-            <Col>
+            <CardDeck>
                 <Card style={{ width: '18rem' }}>
                     <Card.Body>
                         <Card.Title>{props.location}</Card.Title>
@@ -20,7 +20,7 @@ const View = (props) => {
                         </Button>
                     </Card.Body>
                 </Card>
-            </Col>
+            </CardDeck>
         </div>
     );
 };
