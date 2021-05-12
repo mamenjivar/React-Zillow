@@ -1,8 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
-import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
 
 // css
 import '@reach/combobox/styles.css';
@@ -52,7 +50,7 @@ const Map = (props) => {
 
     const panTo = useCallback(({ lat, lng }) => {
         mapRef.current.panTo({ lat, lng });
-        mapRef.current.setZoom(14);
+        mapRef.current.setZoom(18);
     }, []);
 
     if (loadError) return "Error loading maps";
@@ -62,7 +60,6 @@ const Map = (props) => {
     return (
         <div>
             <h1>This is the map</h1>
-            <Search panTo={panTo}/>
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 zoom={12}
@@ -97,7 +94,17 @@ const Map = (props) => {
 
             <Row>
                 {props.propertyListings.map((data) => (
-                    <View key={data.id} name={data.name} location={data.location} price={data.price} email={data.email} phone={data.phone} />
+                    <View 
+                        key={data.id} 
+                        name={data.name} 
+                        location={data.location} 
+                        price={data.price} 
+                        email={data.email} 
+                        phone={data.phone}
+                        lat={data.lat}
+                        panTo={panTo}
+                        long={data.long}
+                    />
                 ))}
             </Row>
         </div>
@@ -106,53 +113,53 @@ const Map = (props) => {
 
 export default Map;
 
-function Search({panTo}) {
-    const {ready, value, suggestions: { status, data }, setValue, clearSuggestions} = usePlacesAutocomplete({
-        requestOptions: {
-            location: { 
-                lat: () => 34.052235,
-                lng: () => -118.243683 
-            },
-            radius: 200 * 1000
-        }
-    });
+// function Search({panTo}) {
+//     const {ready, value, suggestions: { status, data }, setValue, clearSuggestions} = usePlacesAutocomplete({
+//         requestOptions: {
+//             location: { 
+//                 lat: () => 34.052235,
+//                 lng: () => -118.243683 
+//             },
+//             radius: 200 * 1000
+//         }
+//     });
 
-    return( 
-    <Combobox
-        onSelect={async (address) => {
-            setValue(address, false);
-            clearSuggestions();
+//     return( 
+//     <Combobox
+//         onSelect={async (address) => {
+//             setValue(address, false);
+//             clearSuggestions();
 
-            try {
-                const results = await getGeocode({ address });
-                const { lat, lng } = await getLatLng(results[0]);
-                console.log(lat, lng);
-                panTo({ lat, lng });
+//             try {
+//                 const results = await getGeocode({ address });
+//                 const { lat, lng } = await getLatLng(results[0]);
+//                 console.log(lat, lng);
+//                 panTo({ lat, lng });
 
-            }catch(error) {
-                console.log('ERROR');
-            }
-        }}
-    >
-        <ComboboxInput 
-            value={value}
-            onChange={(event) => {
-                setValue(event.target.value);
-            }}
-            disabled={!ready}
-            placeholder="Enter an address"
-        />
-        <ComboboxPopover>
-            <ComboboxList>
-                {status === "OK" && 
-                    data.map(({id, description}) => (
-                        <ComboboxOption 
-                            key={id}
-                            value={description}
-                        />
-                ))}
-            </ComboboxList>
-        </ComboboxPopover>
-    </Combobox>
-    )
-}
+//             }catch(error) {
+//                 console.log('ERROR');
+//             }
+//         }}
+//     >
+//         <ComboboxInput 
+//             value={value}
+//             onChange={(event) => {
+//                 setValue(event.target.value);
+//             }}
+//             disabled={!ready}
+//             placeholder="Enter an address"
+//         />
+//         <ComboboxPopover>
+//             <ComboboxList>
+//                 {status === "OK" && 
+//                     data.map(({id, description}) => (
+//                         <ComboboxOption 
+//                             key={id}
+//                             value={description}
+//                         />
+//                 ))}
+//             </ComboboxList>
+//         </ComboboxPopover>
+//     </Combobox>
+//     )
+// }
