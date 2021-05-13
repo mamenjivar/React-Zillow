@@ -4,7 +4,7 @@ import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps
 
 // css
 import '@reach/combobox/styles.css';
-import { Row } from 'react-bootstrap';
+import { Row, Modal, ModalBody, ModalTitle, ModalFooter, Button } from 'react-bootstrap';
 
 // components
 import View from '../components/View';
@@ -29,29 +29,30 @@ const Map = (props) => {
         libraries
     });
 
-    const [ markers, setMarkers] = useState([]);
+    // keeps track of single location
     const [selected, setSelected] = useState(null);
-
-    // const [propertyList, setPropertyList] = useState(props.propertyListings);
-
-    // marker state
-    // add a new marker to object array
-    const onMapClick = useCallback((event) => {
-        setMarkers(currentState => [...currentState, {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-        }])
-    }, []);
 
     const mapRef = useRef();
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;
     }, []);
 
+    // pans to specific location
     const panTo = useCallback(({ lat, lng }) => {
         mapRef.current.panTo({ lat, lng });
         mapRef.current.setZoom(18);
     }, []);
+
+    // modal
+    const [show, setShow] = useState(false);
+    const [modalInfo, setModalInfo] = useState();
+    
+    const handleClose = () => setShow(false);
+
+    const handleShow = (modalObject) => {
+        // setModalInfo(modalObject);
+        setShow(true);
+    };
 
     if (loadError) return "Error loading maps";
     if (!isLoaded) return "Loading Maps";
@@ -65,7 +66,7 @@ const Map = (props) => {
                 zoom={12}
                 center={center}
                 options={options}
-                onClick={onMapClick}
+                // onClick={onMapClick}
                 onLoad={onMapLoad}
             >
                 {props.propertyListings.map((marker) => (
@@ -104,62 +105,22 @@ const Map = (props) => {
                         lat={data.lat}
                         panTo={panTo}
                         long={data.long}
+                        onHandleShow={handleShow}
                     />
                 ))}
             </Row>
+
+            <Modal show={show} onHide={handleClose} centered>
+                <Modal.Header closeButton>
+                    <ModalTitle></ModalTitle>
+                </Modal.Header>
+                <ModalBody></ModalBody>
+                <ModalFooter>
+                    <Button variant="secondary" onClick={handleClose}>Close</Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 };
 
 export default Map;
-
-// function Search({panTo}) {
-//     const {ready, value, suggestions: { status, data }, setValue, clearSuggestions} = usePlacesAutocomplete({
-//         requestOptions: {
-//             location: { 
-//                 lat: () => 34.052235,
-//                 lng: () => -118.243683 
-//             },
-//             radius: 200 * 1000
-//         }
-//     });
-
-//     return( 
-//     <Combobox
-//         onSelect={async (address) => {
-//             setValue(address, false);
-//             clearSuggestions();
-
-//             try {
-//                 const results = await getGeocode({ address });
-//                 const { lat, lng } = await getLatLng(results[0]);
-//                 console.log(lat, lng);
-//                 panTo({ lat, lng });
-
-//             }catch(error) {
-//                 console.log('ERROR');
-//             }
-//         }}
-//     >
-//         <ComboboxInput 
-//             value={value}
-//             onChange={(event) => {
-//                 setValue(event.target.value);
-//             }}
-//             disabled={!ready}
-//             placeholder="Enter an address"
-//         />
-//         <ComboboxPopover>
-//             <ComboboxList>
-//                 {status === "OK" && 
-//                     data.map(({id, description}) => (
-//                         <ComboboxOption 
-//                             key={id}
-//                             value={description}
-//                         />
-//                 ))}
-//             </ComboboxList>
-//         </ComboboxPopover>
-//     </Combobox>
-//     )
-// }

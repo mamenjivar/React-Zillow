@@ -106,7 +106,7 @@ const Vender = (props) => {
         setEnteredEmail('');
         setEnteredPhone('');
         setValue('');
-        setEnteredLocation('');
+        setEnteredDescription('');
     }
 
     return (

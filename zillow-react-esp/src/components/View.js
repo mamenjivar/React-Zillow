@@ -6,8 +6,20 @@ import { Card, Button, CardDeck } from 'react-bootstrap';
 // * Map -> View component
 const View = (props) => {
     // pass view property info up
-    const onClickHandler = (lat, long) => {
-        props.panTo({ lat: lat, lng: long})
+    const onClickHandlerMapIt = (lat, long) => {
+        props.panTo({ 
+            lat: lat, 
+            lng: long
+        });
+    };
+
+    const onClickHandlerModalIt = (location, name, price) => {
+        const modalObject = {
+            location: location,
+            name: name,
+            price: price
+        }
+        props.onHandleShow(modalObject);
     }
 
     return (
@@ -22,9 +34,15 @@ const View = (props) => {
                         </Card.Text>
                         <Button 
                             variant="outline-primary"
-                            onClick={() => onClickHandler(props.lat, props.long)}
+                            onClick={() => onClickHandlerMapIt(props.lat, props.long)}
                         >
                             Map It
+                        </Button>
+                        <Button
+                            variant="outline-secondary"
+                            onClick={() => onClickHandlerModalIt(props.location, props.name, props.price)}
+                        >
+                            View It
                         </Button>
                     </Card.Body>
                 </Card>
