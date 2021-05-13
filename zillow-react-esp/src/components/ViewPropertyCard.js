@@ -3,8 +3,7 @@ import React from 'react';
 import { Card, Button, CardDeck } from 'react-bootstrap';
 
 // * Will just show listings of all properties
-// * Map -> View component
-const View = (props) => {
+const ViewPropertyCard = (props) => {
     // pass view property info up
     const onClickHandlerMapIt = (lat, long) => {
         props.panTo({ 
@@ -13,13 +12,9 @@ const View = (props) => {
         });
     };
 
-    const onClickHandlerModalIt = (location, name, price) => {
-        const modalObject = {
-            location: location,
-            name: name,
-            price: price
-        }
-        props.onHandleShow(modalObject);
+    // pass info up
+    const onClickHandlerModalIt = (id) => {
+        props.onHandleShow(id);
     }
 
     return (
@@ -27,20 +22,20 @@ const View = (props) => {
             <CardDeck>
                 <Card style={{ width: '18rem' }}>
                     <Card.Body>
-                        <Card.Title>{props.location}</Card.Title>
+                        <Card.Title>{props.listProperties.location}</Card.Title>
                         <Card.Text>
-                                <p>Name: {props.name}</p>
-                                <p>Price: ${props.price}</p>
+                                <p>Name: {props.listProperties.name}</p>
+                                <p>Price: ${props.listProperties.price}</p>
                         </Card.Text>
                         <Button 
                             variant="outline-primary"
-                            onClick={() => onClickHandlerMapIt(props.lat, props.long)}
+                            onClick={() => onClickHandlerMapIt(props.listProperties.lat, props.listProperties.long)}
                         >
                             Map It
                         </Button>
                         <Button
                             variant="outline-secondary"
-                            onClick={() => onClickHandlerModalIt(props.location, props.name, props.price)}
+                            onClick={() => onClickHandlerModalIt(props.listProperties.id)}
                         >
                             View It
                         </Button>
@@ -51,4 +46,4 @@ const View = (props) => {
     );
 };
 
-export default View;
+export default ViewPropertyCard;
