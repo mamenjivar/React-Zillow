@@ -4,10 +4,10 @@ import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps
 
 // css
 import '@reach/combobox/styles.css';
-import { Row, Modal, ModalBody, ModalTitle, ModalFooter, Button } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 
 // components
-import View from '../components/View';
+import ViewPropertyCard from './ViewPropertyCard';
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -43,15 +43,8 @@ const Map = (props) => {
         mapRef.current.setZoom(18);
     }, []);
 
-    // modal
-    const [show, setShow] = useState(false);
-    const [modalInfo, setModalInfo] = useState();
-    
-    const handleClose = () => setShow(false);
-
-    const handleShow = (modalObject) => {
-        // setModalInfo(modalObject);
-        setShow(true);
+    const passModalUp = (id) => {
+        props.modalPropInfo(id);
     };
 
     if (loadError) return "Error loading maps";
@@ -60,7 +53,6 @@ const Map = (props) => {
 
     return (
         <div>
-            <h1>This is the map</h1>
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 zoom={12}
@@ -95,30 +87,14 @@ const Map = (props) => {
 
             <Row>
                 {props.propertyListings.map((data) => (
-                    <View 
+                    <ViewPropertyCard 
                         key={data.id} 
-                        name={data.name} 
-                        location={data.location} 
-                        price={data.price} 
-                        email={data.email} 
-                        phone={data.phone}
-                        lat={data.lat}
+                        listProperties={data}
                         panTo={panTo}
-                        long={data.long}
-                        onHandleShow={handleShow}
+                        onHandleShow={passModalUp}
                     />
                 ))}
             </Row>
-
-            <Modal show={show} onHide={handleClose} centered>
-                <Modal.Header closeButton>
-                    <ModalTitle></ModalTitle>
-                </Modal.Header>
-                <ModalBody></ModalBody>
-                <ModalFooter>
-                    <Button variant="secondary" onClick={handleClose}>Close</Button>
-                </ModalFooter>
-            </Modal>
         </div>
     );
 };
