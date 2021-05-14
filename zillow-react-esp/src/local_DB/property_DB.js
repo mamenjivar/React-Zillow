@@ -6,6 +6,8 @@ const property_DB = [
         price: "2.99",
         lat: 34.0576912,
         long: -118.2075875,
+        email: 'm@m.com',
+        phone: '123456789',
         description: 'It is a great campus!'
     }
 ]

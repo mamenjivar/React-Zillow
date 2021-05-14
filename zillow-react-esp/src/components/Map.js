@@ -4,7 +4,7 @@ import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps
 
 // css
 import '@reach/combobox/styles.css';
-import { Row } from 'react-bootstrap';
+import { Row, Button } from 'react-bootstrap';
 
 // components
 import ViewPropertyCard from './ViewPropertyCard';
@@ -79,8 +79,14 @@ const Map = (props) => {
                     }}
                 >
                     <div>
-                        <h3>{selected.location}</h3>
-                        <p>Vendedor: {selected.name}<br/> Precio: {selected.price}</p>
+                        <h3>${selected.price}</h3>
+                        <p>Vendedor: {selected.name}</p>
+                        <Button
+                            variant="secondary"
+                            onClick={() => passModalUp(selected.id)}
+                        >
+                            View It
+                        </Button>
                     </div>
                 </InfoWindow>)}
             </GoogleMap>
