@@ -17,6 +17,11 @@ const ViewPropertyCard = (props) => {
         props.onHandleShow(id);
     }
 
+    // pass info to delete
+    const onClickHandlerRemoveIt = (id) => {
+        props.removeItem(id);
+    }
+
     return (
         <div>
             <CardDeck>
@@ -38,6 +43,12 @@ const ViewPropertyCard = (props) => {
                             onClick={() => onClickHandlerModalIt(props.listProperties.id)}
                         >
                             View It
+                        </Button>
+                        <Button
+                            variant="outline-success"
+                            onClick={() => onClickHandlerRemoveIt(props.listProperties.id)}
+                        >
+                            Buy It
                         </Button>
                     </Card.Body>
                 </Card>

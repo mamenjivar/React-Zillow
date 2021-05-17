@@ -24,6 +24,12 @@ function App() {
     });
   };
 
+  const removeNewLocationHandler = (removeItem) => {
+    let filteredArray = items.filter((item) => item.id !== removeItem);
+
+    setItems(filteredArray);
+  }
+
   return (
     <div>
       <Header />
@@ -36,7 +42,7 @@ function App() {
             <Welcome />
           </Route>
           <Route path='/compra'>
-            <Compra listProperties={items}/>
+            <Compra listProperties={items} removeItem={removeNewLocationHandler}/>
           </Route>
           <Route path='/vender'>
             <Vender addNewLocation={addNewLocationHandler}/>

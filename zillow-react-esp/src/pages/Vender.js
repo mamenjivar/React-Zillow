@@ -22,6 +22,7 @@ const Vender = (props) => {
     const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredEmail, setEnteredEmail] = useState('');
     const [enteredPhone, setEnteredPhone] = useState('');
+    const [enteredImage, setEnteredImage] = useState('');
     const [enteredDescription, setEnteredDescription] = useState('');
 
     const [lat, setLat] = useState('');
@@ -45,6 +46,10 @@ const Vender = (props) => {
 
     const descriptionChangeHandler = (event) => {
         setEnteredDescription(event.target.value);
+    }
+
+    const imageChangeHandler = (event) => {
+        setEnteredImage(event.target.value);
     }
 
     const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
@@ -90,7 +95,8 @@ const Vender = (props) => {
             price: enteredPrice,
             email: enteredEmail,
             phone: enteredPhone,
-            description: enteredDescription
+            description: enteredDescription,
+            image: enteredImage
         }
 
         console.log(submitNewProperty);
@@ -107,6 +113,7 @@ const Vender = (props) => {
         setEnteredPhone('');
         setValue('');
         setEnteredDescription('');
+        setEnteredImage('');
     }
 
     return (
@@ -183,6 +190,15 @@ const Vender = (props) => {
                         placeholder="Enter property description here"
                         value={enteredDescription}
                         onChange={descriptionChangeHandler}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <FormLabel>Property Image</FormLabel>
+                    <FormControl
+                        type="text"
+                        placeholder="Enter image link"
+                        value={enteredImage}
+                        onChange={imageChangeHandler}
                     />
                 </FormGroup>
                 <Button variant="primary" type="submit">Submit</Button>

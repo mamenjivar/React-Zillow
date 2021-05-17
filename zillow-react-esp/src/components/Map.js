@@ -47,6 +47,11 @@ const Map = (props) => {
         props.modalPropInfo(id);
     };
 
+    // pass remove item up
+    const onRemoveItem = (id) => {
+        props.removeItem(id);
+    }
+
     if (loadError) return "Error loading maps";
     if (!isLoaded) return "Loading Maps";
 
@@ -94,6 +99,7 @@ const Map = (props) => {
             <Row>
                 {props.propertyListings.map((data) => (
                     <ViewPropertyCard 
+                        removeItem={onRemoveItem}
                         key={data.id} 
                         listProperties={data}
                         panTo={panTo}
