@@ -7,7 +7,7 @@ import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocom
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
 
 // css
-import { Container, Form, FormLabel, FormGroup, FormControl, Button } from 'react-bootstrap';
+import { Container, Form, FormLabel, FormGroup, FormControl, Button, Modal, ModalBody, ModalTitle, ModalFooter } from 'react-bootstrap';
 
 const libraries = ["places"];
 
@@ -17,6 +17,7 @@ const Vender = (props) => {
         libraries
     });
 
+    // form properties
     const [enteredName, setEnteredName] = useState('');
     const [enteredLocation, setEnteredLocation] = useState('');
     const [enteredPrice, setEnteredPrice] = useState('');
@@ -24,9 +25,10 @@ const Vender = (props) => {
     const [enteredPhone, setEnteredPhone] = useState('');
     const [enteredImage, setEnteredImage] = useState('');
     const [enteredDescription, setEnteredDescription] = useState('');
-
     const [lat, setLat] = useState('');
     const [long, setLong] = useState('');
+
+    const [show, setShow] = useState(false);
 
     const nameChangeHandler = (event) => {
         setEnteredName(event.target.value);
@@ -103,6 +105,8 @@ const Vender = (props) => {
         // pass data upward
         props.addNewLocation(submitNewProperty);
 
+        handleShow();
+
         // clear out form after submit
         setEnteredName('');
         setEnteredLocation('');
@@ -116,7 +120,11 @@ const Vender = (props) => {
         setEnteredImage('');
     }
 
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
+        <div>
         <Container>
             <h1>List Your Property</h1>
             <Form onSubmit={onFormSubmitHandler}>
@@ -135,6 +143,7 @@ const Vender = (props) => {
                         onSelect={onSelectHandler}
                     >
                         <ComboboxInput
+                            style={{width: "100%"}}
                             value={value}
                             onChange={onChangeHandler}
                             disabled={!ready}
@@ -204,6 +213,19 @@ const Vender = (props) => {
                 <Button variant="primary" type="submit">Submit</Button>
             </Form>
         </Container>
+
+        <Modal size="sm" show={show} onHide={handleClose} centered>
+            <Modal.Header closeButton>
+                <ModalTitle>Gracias</ModalTitle>
+            </Modal.Header>
+            <ModalBody>
+                <p>The form was successfully submitted!</p>
+            </ModalBody>
+            <ModalFooter>
+                    <Button variant="secondary" onClick={handleClose}>Close</Button>
+            </ModalFooter>
+        </Modal>
+        </div>
     );
 };
 

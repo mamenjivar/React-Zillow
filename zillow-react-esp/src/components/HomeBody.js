@@ -13,7 +13,7 @@ const HomeBody = () => {
         <section>
             <Container>
                 <Row>
-                    <h2 className={styles.subHeader}>Buying a new home is never easier</h2>
+                    <h2 className={styles.subHeader}>Comprando una casa es mas facil que nunca!</h2>
                 </Row>
                 <Row>
                     {CARD_INFO.map(data => 

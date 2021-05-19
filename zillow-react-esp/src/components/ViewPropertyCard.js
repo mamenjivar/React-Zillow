@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Button, CardDeck } from 'react-bootstrap';
+import { Card, Button, CardDeck, Col } from 'react-bootstrap';
 
 // * Will just show listings of all properties
 const ViewPropertyCard = (props) => {
@@ -23,14 +23,13 @@ const ViewPropertyCard = (props) => {
     }
 
     return (
-        <div>
-            <CardDeck>
+            // <Col md={1}>
                 <Card style={{ width: '18rem' }}>
                     <Card.Body>
                         <Card.Title>{props.listProperties.location}</Card.Title>
                         <Card.Text>
-                                <p>Name: {props.listProperties.name}</p>
-                                <p>Price: ${props.listProperties.price}</p>
+                                <p>Vendedor: {props.listProperties.name}</p>
+                                <p>Precio: ${props.listProperties.price}</p>
                         </Card.Text>
                         <Button 
                             variant="outline-primary"
@@ -52,8 +51,7 @@ const ViewPropertyCard = (props) => {
                         </Button>
                     </Card.Body>
                 </Card>
-            </CardDeck>
-        </div>
+            // </Col>
     );
 };
 

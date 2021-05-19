@@ -4,14 +4,14 @@ import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps
 
 // css
 import '@reach/combobox/styles.css';
-import { Row, Button } from 'react-bootstrap';
+import { Row, Button, Col, Container } from 'react-bootstrap';
 
 // components
 import ViewPropertyCard from './ViewPropertyCard';
 
 const libraries = ["places"];
 const mapContainerStyle = {
-    width: '100vw',
+    width: '50vw',
     height: '100vh'
 };
 const center = {
@@ -57,57 +57,62 @@ const Map = (props) => {
 
 
     return (
-        <div>
-            <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                zoom={12}
-                center={center}
-                options={options}
-                // onClick={onMapClick}
-                onLoad={onMapLoad}
-            >
-                {props.propertyListings.map((marker) => (
-                    <Marker
-                        key={marker.id}
-                        position={{lat: marker.lat, lng: marker.long}}
-                        onClick={() => {
-                            setSelected(marker)
-                        }}
-                    />
-                ))}
-
-                {selected && (
-                <InfoWindow 
-                    position={{lat: selected.lat, lng: selected.long}}
-                    onCloseClick={() => {
-                        setSelected(null);
-                    }}
+        <Row>
+            <Col>
+                <Container>
+                    <Row>
+                        {props.propertyListings.map((data) => (
+                            <ViewPropertyCard
+                                removeItem={onRemoveItem}
+                                key={data.id}
+                                listProperties={data}
+                                panTo={panTo}
+                                onHandleShow={passModalUp}
+                            />
+                        ))}
+                    </Row>
+                </Container>
+            </Col>
+            <Col>
+                <GoogleMap
+                    mapContainerStyle={mapContainerStyle}
+                    zoom={12}
+                    center={center}
+                    options={options}
+                    // onClick={onMapClick}
+                    onLoad={onMapLoad}
                 >
-                    <div>
-                        <h3>${selected.price}</h3>
-                        <p>Vendedor: {selected.name}</p>
-                        <Button
-                            variant="secondary"
-                            onClick={() => passModalUp(selected.id)}
-                        >
-                            View It
-                        </Button>
-                    </div>
-                </InfoWindow>)}
-            </GoogleMap>
+                    {props.propertyListings.map((marker) => (
+                        <Marker
+                            key={marker.id}
+                            position={{lat: marker.lat, lng: marker.long}}
+                            onClick={() => {
+                                setSelected(marker)
+                            }}
+                        />
+                    ))}
 
-            <Row>
-                {props.propertyListings.map((data) => (
-                    <ViewPropertyCard 
-                        removeItem={onRemoveItem}
-                        key={data.id} 
-                        listProperties={data}
-                        panTo={panTo}
-                        onHandleShow={passModalUp}
-                    />
-                ))}
-            </Row>
-        </div>
+                    {selected && (
+                    <InfoWindow 
+                        position={{lat: selected.lat, lng: selected.long}}
+                        onCloseClick={() => {
+                            setSelected(null);
+                        }}
+                    >
+                        <div>
+                            <h3>${selected.price}</h3>
+                            <p>Vendedor: {selected.name}</p>
+                            <Button
+                                variant="secondary"
+                                onClick={() => passModalUp(selected.id)}
+                            >
+                                View It
+                            </Button>
+                        </div>
+                    </InfoWindow>)}
+                </GoogleMap>
+            </Col>
+        </Row>
     );
 };
 

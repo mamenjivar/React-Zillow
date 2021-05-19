@@ -5,6 +5,7 @@ import Map from '../components/Map';
 
 // css
 import { Modal, ModalBody, ModalTitle, ModalFooter, Button, Row, Container, Col } from 'react-bootstrap';
+import styles from '../css/Compra.modules.css';
 
 const Compra = (props) => {
     const [selectedProperty, setSelectedProperty] = useState();
@@ -24,7 +25,7 @@ const Compra = (props) => {
 
     return (
         <section>
-            <h1>hello from Compra</h1>
+            <h1 className="text-center">Propriedades Disponible </h1>
             <Map propertyListings={props.listProperties} removeItem={upRemoveItem} modalPropInfo={handleShow}/>
 
             {props.listProperties.filter(property => property.id === selectedProperty).map(filteredProperty => (
@@ -39,17 +40,18 @@ const Compra = (props) => {
                                     <img src={filteredProperty.image} width="170" alt="property"/>
                                 </Col>
                                 <Col md={9}>
-                                    Seller Name: {filteredProperty.name}<br />
-                                    Location: {filteredProperty.location}<br />
-                                    Property Description: {filteredProperty.description}<br />
-                                    Phone Number: {filteredProperty.phone}<br />
-                                    Email: {filteredProperty.email}
+                                    <span className="font-weight-bold">Vendedor:</span> {filteredProperty.name}<br />
+                                    <span className="font-weight-bold">Sitio:</span> {filteredProperty.location}<br />
+                                    <span className="font-weight-bold">Descripcion:</span> {filteredProperty.description}<br />
+                                    <span className="font-weight-bold">Numero de Telephono:</span> {filteredProperty.phone}<br />
+                                    <span className="font-weight-bold">Correo Electronico:</span> {filteredProperty.email}
                                 </Col>
                             </Row>
                         </Container>
                     </ModalBody>
                     <ModalFooter>
                         <Button variant="secondary" onClick={handleClose}>Close</Button>
+                        <Button variant="success" onClick={() => upRemoveItem(filteredProperty.id)}>Compralo</Button>
                     </ModalFooter>
                 </Modal>
             ))}
