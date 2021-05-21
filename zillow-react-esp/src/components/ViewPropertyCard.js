@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Button, CardDeck, Col } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 
 // * Will just show listings of all properties
 const ViewPropertyCard = (props) => {

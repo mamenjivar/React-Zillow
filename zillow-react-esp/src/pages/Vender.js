@@ -125,106 +125,106 @@ const Vender = (props) => {
 
     return (
         <div>
-        <Container>
-            <h1>List Your Property</h1>
-            <Form onSubmit={onFormSubmitHandler}>
-                <FormGroup>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl 
-                        type="text" 
-                        placeholder="Enter your name"
-                        value={enteredName}
-                        onChange={nameChangeHandler}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel>Location</FormLabel>
-                    <Combobox
-                        onSelect={onSelectHandler}
-                    >
-                        <ComboboxInput
-                            style={{width: "100%"}}
-                            value={value}
-                            onChange={onChangeHandler}
-                            disabled={!ready}
-                            placeholder="Enter an address"
+            <Container>
+                <h1>List Your Property</h1>
+                <Form onSubmit={onFormSubmitHandler}>
+                    <FormGroup>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl 
+                            type="text" 
+                            placeholder="Enter your name"
+                            value={enteredName}
+                            onChange={nameChangeHandler}
                         />
-                        <ComboboxPopover>
-                            <ComboboxList>
-                                {status === "OK" &&
-                                    data.map(({ id, description }) => (
-                                        <ComboboxOption
-                                            key={id}
-                                            value={description}
-                                        />
-                                    ))
-                                }
-                            </ComboboxList>
-                        </ComboboxPopover>
-                    </Combobox>
-                    <GoogleMap ></GoogleMap>
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel>Price</FormLabel>
-                    <FormControl 
-                        type="text" 
-                        placeholder="Enter price of property"
-                        value={enteredPrice}
-                        onChange={priceChangeHandler}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl
-                        type="text" 
-                        placeholder="Enter email"
-                        value={enteredEmail}
-                        onChange={emailChangeHandler}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl 
-                        type="text" 
-                        placeholder="Enter your phone number"
-                        value={enteredPhone}
-                        onChange={phoneChangeHandler}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel>Property Description</FormLabel>
-                    <FormControl 
-                        as="textarea" 
-                        rows={3} 
-                        placeholder="Enter property description here"
-                        value={enteredDescription}
-                        onChange={descriptionChangeHandler}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel>Property Image</FormLabel>
-                    <FormControl
-                        type="text"
-                        placeholder="Enter image link"
-                        value={enteredImage}
-                        onChange={imageChangeHandler}
-                    />
-                </FormGroup>
-                <Button variant="primary" type="submit">Submit</Button>
-            </Form>
-        </Container>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormLabel>Location</FormLabel>
+                        <Combobox
+                            onSelect={onSelectHandler}
+                        >
+                            <ComboboxInput
+                                style={{width: "100%"}}
+                                value={value}
+                                onChange={onChangeHandler}
+                                disabled={!ready}
+                                placeholder="Enter an address"
+                            />
+                            <ComboboxPopover>
+                                <ComboboxList>
+                                    {status === "OK" &&
+                                        data.map(({ id, description }) => (
+                                            <ComboboxOption
+                                                key={id}
+                                                value={description}
+                                            />
+                                        ))
+                                    }
+                                </ComboboxList>
+                            </ComboboxPopover>
+                        </Combobox>
+                        <GoogleMap ></GoogleMap>
+                    </FormGroup>
+                    <FormGroup>
+                        <FormLabel>Price</FormLabel>
+                        <FormControl 
+                            type="text" 
+                            placeholder="Enter price of property"
+                            value={enteredPrice}
+                            onChange={priceChangeHandler}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl
+                            type="text" 
+                            placeholder="Enter email"
+                            value={enteredEmail}
+                            onChange={emailChangeHandler}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl 
+                            type="text" 
+                            placeholder="Enter your phone number"
+                            value={enteredPhone}
+                            onChange={phoneChangeHandler}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <FormLabel>Property Description</FormLabel>
+                        <FormControl 
+                            as="textarea" 
+                            rows={3} 
+                            placeholder="Enter property description here"
+                            value={enteredDescription}
+                            onChange={descriptionChangeHandler}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <FormLabel>Property Image</FormLabel>
+                        <FormControl
+                            type="text"
+                            placeholder="Enter image link"
+                            value={enteredImage}
+                            onChange={imageChangeHandler}
+                        />
+                    </FormGroup>
+                    <Button variant="primary" type="submit">Submit</Button>
+                </Form>
+            </Container>
 
-        <Modal size="sm" show={show} onHide={handleClose} centered>
-            <Modal.Header closeButton>
-                <ModalTitle>Gracias</ModalTitle>
-            </Modal.Header>
-            <ModalBody>
-                <p>The form was successfully submitted!</p>
-            </ModalBody>
-            <ModalFooter>
-                    <Button variant="secondary" onClick={handleClose}>Close</Button>
-            </ModalFooter>
-        </Modal>
+            <Modal size="sm" show={show} onHide={handleClose} centered>
+                <Modal.Header closeButton>
+                    <ModalTitle>Gracias</ModalTitle>
+                </Modal.Header>
+                <ModalBody>
+                    <p>The form was successfully submitted!</p>
+                </ModalBody>
+                <ModalFooter>
+                        <Button variant="secondary" onClick={handleClose}>Close</Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 };

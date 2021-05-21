@@ -5,7 +5,6 @@ import Map from '../components/Map';
 
 // css
 import { Modal, ModalBody, ModalTitle, ModalFooter, Button, Row, Container, Col } from 'react-bootstrap';
-import styles from '../css/Compra.modules.css';
 
 const Compra = (props) => {
     const [selectedProperty, setSelectedProperty] = useState();
