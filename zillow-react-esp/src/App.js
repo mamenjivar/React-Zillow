@@ -8,6 +8,7 @@ import './css/App.css';
 import Welcome from './pages/Welcome';
 import Compra from './pages/Compra';
 import Vender from './pages/Vender';
+import AuthPage from './pages/AuthPage';
 
 // components
 import Header from './components/Header';
@@ -47,6 +48,12 @@ function App() {
           </Route>
           <Route path='/vender'>
             <Vender addNewLocation={addNewLocationHandler}/>
+          </Route>
+          <Route path="/auth">
+            <AuthPage />
+          </Route>
+          <Route path="*">
+            <Redirect to="/"/>
           </Route>
         </Switch>
       </main>
