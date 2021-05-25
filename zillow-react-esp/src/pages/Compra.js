@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 // components
 import Map from '../components/Map';
@@ -6,17 +6,24 @@ import Map from '../components/Map';
 // css
 import { Modal, ModalBody, ModalTitle, ModalFooter, Button, Row, Container, Col } from 'react-bootstrap';
 
-const Compra = (props) => {
-    const [selectedProperty, setSelectedProperty] = useState();
+import AuthContext from '../store/auth-context';
 
+const Compra = (props) => {
+    const authCtx = useContext(AuthContext);
+    const loggedIn = authCtx.isLoggedIn;
+
+    const [selectedProperty, setSelectedProperty] = useState();
     const [show, setShow] = useState(false);
 
+    /////////////////////////////////////////
+    // Modal
+    /////////////////////////////////////////
     const handleClose = () => setShow(false);
-
     const handleShow = (propId) => {
         setSelectedProperty(propId);
         setShow(true);
     };
+    //////////////////////////////////////////
 
     const upRemoveItem = (id) => {
         props.removeItem(id);
@@ -50,7 +57,9 @@ const Compra = (props) => {
                     </ModalBody>
                     <ModalFooter>
                         <Button variant="secondary" onClick={handleClose}>Close</Button>
-                        <Button variant="success" onClick={() => upRemoveItem(filteredProperty.id)}>Compralo</Button>
+                        {loggedIn && (
+                            <Button variant="success" onClick={() => upRemoveItem(filteredProperty.id)}>Compralo</Button>
+                        )}
                     </ModalFooter>
                 </Modal>
             ))}
