@@ -37,9 +37,9 @@ const AuthForm = () => {
         setLoading(true);
         let url;
         if(login) {
-            url ='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=';
+            url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
         } else {
-            url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=';
+            url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_API_KEY}`;
         }
 
         fetch(url, 
