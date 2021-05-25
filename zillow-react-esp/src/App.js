@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+
+// store
+import AuthContext from './store/auth-context';
 
 // css
 import './css/App.css';
@@ -18,6 +21,8 @@ import property_DB from './local_DB/property_DB';
 
 
 function App() {
+  const authCtx = useContext(AuthContext);
+
   const [items, setItems] = useState(property_DB);
 
   const addNewLocationHandler= (item) => {
@@ -49,9 +54,11 @@ function App() {
           <Route path='/vender'>
             <Vender addNewLocation={addNewLocationHandler}/>
           </Route>
-          <Route path="/auth">
-            <AuthPage />
-          </Route>
+          {!authCtx.isLoggedIn && (
+            <Route path="/auth">
+              <AuthPage />
+            </Route>
+          )}
           <Route path="*">
             <Redirect to="/"/>
           </Route>

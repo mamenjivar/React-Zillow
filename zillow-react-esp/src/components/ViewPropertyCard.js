@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
+// css
 import { Card, Button } from 'react-bootstrap';
+
+import AuthContext from '../store/auth-context';
 
 // * Will just show listings of all properties
 const ViewPropertyCard = (props) => {
+    const authCtx = useContext(AuthContext);
+    const loggedIn = authCtx.isLoggedIn;
+
     // pass view property info up
     const onClickHandlerMapIt = (lat, long) => {
         props.panTo({ 
@@ -43,12 +49,14 @@ const ViewPropertyCard = (props) => {
                         >
                             View It
                         </Button>
-                        <Button
-                            variant="outline-success"
-                            onClick={() => onClickHandlerRemoveIt(props.listProperties.id)}
-                        >
-                            Buy It
-                        </Button>
+                        {loggedIn && (
+                            <Button
+                                variant="outline-success"
+                                onClick={() => onClickHandlerRemoveIt(props.listProperties.id)}
+                            >
+                                Buy It
+                            </Button>
+                        )}
                     </Card.Body>
                 </Card>
             // </Col>
