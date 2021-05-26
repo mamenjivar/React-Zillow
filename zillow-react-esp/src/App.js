@@ -17,7 +17,7 @@ import AuthPage from './pages/AuthPage';
 import Header from './components/Header';
 
 // local DB
-import property_DB from './local_DB/property_DB';
+import property_DB from './util/property_DB';
 
 
 function App() {
