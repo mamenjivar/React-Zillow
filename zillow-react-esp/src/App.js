@@ -44,13 +44,14 @@ function App() {
     })
   }, [])
 
-  //! Might remove from system since own't be needing it
+  //! Might remove from system since won't be needing it
   // ! because we won't need to pass up data onto the state anymore it's not local
   const addNewLocationHandler= (item) => {
     setItems(prevItem => {
       return [...prevItem, item]
     });
   };
+  // *************************************************
 
   const removeNewLocationHandler = (removeItem) => {
     // let filteredArray = items.filter((item) => item.id !== removeItem);
