@@ -44,6 +44,8 @@ function App() {
     })
   }, [])
 
+  //! Might remove from system since own't be needing it
+  // ! because we won't need to pass up data onto the state anymore it's not local
   const addNewLocationHandler= (item) => {
     setItems(prevItem => {
       return [...prevItem, item]
@@ -51,9 +53,9 @@ function App() {
   };
 
   const removeNewLocationHandler = (removeItem) => {
-    let filteredArray = items.filter((item) => item.id !== removeItem);
+    // let filteredArray = items.filter((item) => item.id !== removeItem);
 
-    setItems(filteredArray);
+    // setItems(filteredArray);
 
     const propertyRef = firebase.database().ref('property').child(removeItem);
     propertyRef.remove();
