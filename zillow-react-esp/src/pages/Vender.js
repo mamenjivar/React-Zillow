@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { GoogleMap, useLoadScript } from '@react-google-maps/api';
+import firebase from '../util/firebase';
 
 // address
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
@@ -88,8 +89,10 @@ const Vender = (props) => {
     const onFormSubmitHandler = (event) => {
         event.preventDefault();
 
+        const sendFirebase = firebase.database().ref('property');
+
         const submitNewProperty = {
-            id: Math.random(),
+            // id: Math.random(),
             name: enteredName,
             location: enteredLocation,
             lat: lat,
@@ -104,6 +107,7 @@ const Vender = (props) => {
         console.log(submitNewProperty);
         // pass data upward
         props.addNewLocation(submitNewProperty);
+        sendFirebase.push(submitNewProperty);
 
         handleShow();
 

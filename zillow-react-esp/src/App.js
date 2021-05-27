@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 // store
 import AuthContext from './store/auth-context';
+import firebase from './util/firebase';
 
 // css
 import './css/App.css';
@@ -23,8 +24,28 @@ import property_DB from './util/property_DB';
 function App() {
   const authCtx = useContext(AuthContext);
 
+  // local db
   const [items, setItems] = useState(property_DB);
+  
+  // firebase DB
+  const [properties, setProperties] = useState();
 
+  useEffect(() => {
+    const propRef = firebase.database().ref('property');
+    propRef.on('value', (snapshot) => {
+      const property = snapshot.val();
+      const propertyList = [];
+
+      for (let id in property) {
+        propertyList.push({id, ...property[id]});
+      }
+
+      setProperties(propertyList);
+    })
+  }, [])
+
+  //! Might remove from system since own't be needing it
+  // ! because we won't need to pass up data onto the state anymore it's not local
   const addNewLocationHandler= (item) => {
     setItems(prevItem => {
       return [...prevItem, item]
@@ -32,9 +53,12 @@ function App() {
   };
 
   const removeNewLocationHandler = (removeItem) => {
-    let filteredArray = items.filter((item) => item.id !== removeItem);
+    // let filteredArray = items.filter((item) => item.id !== removeItem);
 
-    setItems(filteredArray);
+    // setItems(filteredArray);
+
+    const propertyRef = firebase.database().ref('property').child(removeItem);
+    propertyRef.remove();
   }
 
   return (
@@ -49,7 +73,7 @@ function App() {
             <Welcome />
           </Route>
           <Route path='/compra'>
-            <Compra listProperties={items} removeItem={removeNewLocationHandler}/>
+            <Compra listProperties={properties} removeItem={removeNewLocationHandler}/>
           </Route>
           <Route path='/vender'>
             <Vender addNewLocation={addNewLocationHandler}/>
