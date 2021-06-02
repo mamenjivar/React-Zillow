@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { GoogleMap, useLoadScript } from '@react-google-maps/api';
-import firebase from '../util/firebase';
+import firebase, { storage } from '../util/firebase';
 
 // address
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
@@ -24,11 +24,14 @@ const Vender = (props) => {
     const [enteredPrice, setEnteredPrice] = useState('');
     const [enteredEmail, setEnteredEmail] = useState('');
     const [enteredPhone, setEnteredPhone] = useState('');
-    const [enteredImage, setEnteredImage] = useState('');
     const [enteredDescription, setEnteredDescription] = useState('');
     const [lat, setLat] = useState('');
     const [long, setLong] = useState('');
 
+    // uploading images to firebase storage
+    const [imageUrl, setImageUrl] = useState("");
+
+    // modal
     const [show, setShow] = useState(false);
 
     const nameChangeHandler = (event) => {
@@ -49,10 +52,6 @@ const Vender = (props) => {
 
     const descriptionChangeHandler = (event) => {
         setEnteredDescription(event.target.value);
-    }
-
-    const imageChangeHandler = (event) => {
-        setEnteredImage(event.target.value);
     }
 
     const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
@@ -86,13 +85,22 @@ const Vender = (props) => {
         setValue(event.target.value);
     };
 
-    const onFormSubmitHandler = (event) => {
+    const uploadHandleChange = async (event) => {
+        const file = event.target.files[0];
+        const storageRef = storage.ref('images').child(file.name);
+        await storageRef.put(file);
+        setImageUrl(await storageRef.getDownloadURL());
+    };
+
+    // submit new property
+    const onFormSubmitHandler = async (event) => {
         event.preventDefault();
 
+        // data DB firebase
+        // establish connection
         const sendFirebase = firebase.database().ref('property');
 
         const submitNewProperty = {
-            // id: Math.random(),
             name: enteredName,
             location: enteredLocation,
             lat: lat,
@@ -101,12 +109,15 @@ const Vender = (props) => {
             email: enteredEmail,
             phone: enteredPhone,
             description: enteredDescription,
-            image: enteredImage
+            image: imageUrl
         }
 
         console.log(submitNewProperty);
         // pass data upward
-        props.addNewLocation(submitNewProperty);
+        // ! might need to remove this because DB isn't local anymore
+        // props.addNewLocation(submitNewProperty);
+
+        // send data to online database
         sendFirebase.push(submitNewProperty);
 
         handleShow();
@@ -121,11 +132,13 @@ const Vender = (props) => {
         setEnteredPhone('');
         setValue('');
         setEnteredDescription('');
-        setEnteredImage('');
-    }
+        // setEnteredImage('');
+        setImageUrl('');
+    };
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
 
     return (
         <div>
@@ -205,7 +218,8 @@ const Vender = (props) => {
                             onChange={descriptionChangeHandler}
                         />
                     </FormGroup>
-                    <FormGroup>
+                    {/* //! will be replacing this with file uploads */}
+                    {/* <FormGroup>
                         <FormLabel>Property Image</FormLabel>
                         <FormControl
                             type="text"
@@ -213,9 +227,17 @@ const Vender = (props) => {
                             value={enteredImage}
                             onChange={imageChangeHandler}
                         />
+                    </FormGroup> */}
+                    <FormGroup>
+                        <FormLabel>Upload Images</FormLabel>
+                        <FormControl
+                            type="file"
+                            onChange={uploadHandleChange}
+                        />
                     </FormGroup>
                     <Button variant="primary" type="submit">Submit</Button>
                 </Form>
+
             </Container>
 
             <Modal size="sm" show={show} onHide={handleClose} centered>

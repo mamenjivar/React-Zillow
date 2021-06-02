@@ -20,7 +20,6 @@ import Header from './components/Header';
 // local DB
 import property_DB from './util/property_DB';
 
-
 function App() {
   const authCtx = useContext(AuthContext);
 
@@ -42,7 +41,7 @@ function App() {
 
       setProperties(propertyList);
     })
-  }, [])
+  }, []);
 
   //! Might remove from system since won't be needing it
   // ! because we won't need to pass up data onto the state anymore it's not local
