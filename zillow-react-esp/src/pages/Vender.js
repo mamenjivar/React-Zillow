@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { v4 as uuidv4 } from 'uuid';
 import { GoogleMap, useLoadScript } from '@react-google-maps/api';
 import firebase, { storage } from '../util/firebase';
 
@@ -18,7 +19,9 @@ const Vender = (props) => {
         libraries
     });
 
+    // ***********************************************************
     // form properties
+    // ***********************************************************
     const [enteredName, setEnteredName] = useState('');
     const [enteredLocation, setEnteredLocation] = useState('');
     const [enteredPrice, setEnteredPrice] = useState('');
@@ -27,13 +30,16 @@ const Vender = (props) => {
     const [enteredDescription, setEnteredDescription] = useState('');
     const [lat, setLat] = useState('');
     const [long, setLong] = useState('');
+    // ***********************************************************
 
-    // uploading images to firebase storage
-    const [imageUrl, setImageUrl] = useState("");
+    const [file, setFile] = useState('');
 
     // modal
     const [show, setShow] = useState(false);
 
+    // ***********************************************************
+    // form onChange properties
+    // ***********************************************************
     const nameChangeHandler = (event) => {
         setEnteredName(event.target.value);
     }
@@ -64,6 +70,7 @@ const Vender = (props) => {
         }
     });
 
+    // gets lat and long of chosen address
     const onSelectHandler = async (address) => {
         setValue(address, false);
         clearSuggestions();
@@ -85,12 +92,12 @@ const Vender = (props) => {
         setValue(event.target.value);
     };
 
-    const uploadHandleChange = async (event) => {
-        const file = event.target.files[0];
-        const storageRef = storage.ref('images').child(file.name);
-        await storageRef.put(file);
-        setImageUrl(await storageRef.getDownloadURL());
+    // to submit image online to storage
+    const uploadHandleChange = (event) => {
+        // const file = event.target.files[0];
+        setFile(event.target.files[0]);
     };
+    // ***********************************************************
 
     // submit new property
     const onFormSubmitHandler = async (event) => {
@@ -99,6 +106,12 @@ const Vender = (props) => {
         // data DB firebase
         // establish connection
         const sendFirebase = firebase.database().ref('property');
+        
+        // storage iamge upload
+        const fileName = uuidv4();
+        const storageRef = storage.ref('images').child(fileName);
+        await storageRef.put(file);
+        const imageURL = await storageRef.getDownloadURL();
 
         const submitNewProperty = {
             name: enteredName,
@@ -109,7 +122,7 @@ const Vender = (props) => {
             email: enteredEmail,
             phone: enteredPhone,
             description: enteredDescription,
-            image: imageUrl
+            image: imageURL
         }
 
         console.log(submitNewProperty);
@@ -120,6 +133,7 @@ const Vender = (props) => {
         // send data to online database
         sendFirebase.push(submitNewProperty);
 
+        // dipslay modal after form submission
         handleShow();
 
         // clear out form after submit
@@ -132,13 +146,14 @@ const Vender = (props) => {
         setEnteredPhone('');
         setValue('');
         setEnteredDescription('');
-        // setEnteredImage('');
-        setImageUrl('');
     };
 
+    // ***********************************************************
+    // Modal Properties
+    // ***********************************************************
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
+    // ***********************************************************
 
     return (
         <div>
@@ -218,16 +233,6 @@ const Vender = (props) => {
                             onChange={descriptionChangeHandler}
                         />
                     </FormGroup>
-                    {/* //! will be replacing this with file uploads */}
-                    {/* <FormGroup>
-                        <FormLabel>Property Image</FormLabel>
-                        <FormControl
-                            type="text"
-                            placeholder="Enter image link"
-                            value={enteredImage}
-                            onChange={imageChangeHandler}
-                        />
-                    </FormGroup> */}
                     <FormGroup>
                         <FormLabel>Upload Images</FormLabel>
                         <FormControl
@@ -237,7 +242,6 @@ const Vender = (props) => {
                     </FormGroup>
                     <Button variant="primary" type="submit">Submit</Button>
                 </Form>
-
             </Container>
 
             <Modal size="sm" show={show} onHide={handleClose} centered>
