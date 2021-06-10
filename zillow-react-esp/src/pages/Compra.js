@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, Fragment } from 'react';
 
 // components
 import Map from '../components/Map';
@@ -12,18 +12,32 @@ const Compra = (props) => {
     const authCtx = useContext(AuthContext);
     const loggedIn = authCtx.isLoggedIn;
 
+    // View property modal
     const [selectedProperty, setSelectedProperty] = useState();
-    const [show, setShow] = useState(false);
+    const [showProperty, setShowProperty] = useState(false);
 
-    /////////////////////////////////////////
-    // Modal
-    /////////////////////////////////////////
-    const handleClose = () => setShow(false);
-    const handleShow = (propId) => {
+    // Purchase property modal
+    const [showPurchaseProperty, setShowPurchaseProperty] = useState(false);
+
+    // **************************************
+    // Modal to view property
+    // **************************************
+    const handleCloseProperty = () => setShowProperty(false);
+    const handleShowProperty = (propId) => {
         setSelectedProperty(propId);
-        setShow(true);
+        setShowProperty(true);
     };
-    //////////////////////////////////////////
+    // **************************************
+    
+    // ***************************************
+    // Modal to purchase property
+    // **************************************
+    const handleClosePurchase = () => setShowPurchaseProperty(false);
+    const handleShowPurchase = () => {
+        setShowProperty(false);
+        setShowPurchaseProperty(true);
+    }
+    // **************************************
 
     const upRemoveItem = (id) => {
         props.removeItem(id);
@@ -32,10 +46,12 @@ const Compra = (props) => {
     return (
         <section>
             <h1 className="text-center">Propriedades Disponible </h1>
-            <Map propertyListings={props.listProperties} removeItem={upRemoveItem} modalPropInfo={handleShow}/>
+            <Map propertyListings={props.listProperties} removeItem={upRemoveItem} modalPropInfo={handleShowProperty}/>
 
+            {/* VIEW SINGLE PROPERTY */}
             {props.listProperties.filter(property => property.id === selectedProperty).map(filteredProperty => (
-                <Modal size="lg" show={show} onHide={handleClose} centered>
+                <Fragment>
+                <Modal size="lg" show={showProperty} onHide={handleCloseProperty} centered>
                     <Modal.Header closeButton>
                         <ModalTitle>${filteredProperty.price}</ModalTitle>
                     </Modal.Header>
@@ -56,13 +72,41 @@ const Compra = (props) => {
                         </Container>
                     </ModalBody>
                     <ModalFooter>
-                        <Button variant="secondary" onClick={handleClose}>Close</Button>
+                        <Button variant="secondary" onClick={handleCloseProperty}>Close</Button>
                         {loggedIn && (
-                            <Button variant="success" onClick={() => upRemoveItem(filteredProperty.id)}>Compralo</Button>
+                            // <Button variant="success" onClick={() => upRemoveItem(filteredProperty.id)}>Compralo</Button>
+                            <Button variant="success" onClick={handleShowPurchase}>Compralo</Button>
                         )}
                     </ModalFooter>
                 </Modal>
+
+                < Modal size = "md" show = { showPurchaseProperty } onHide = { handleClosePurchase } centered >
+                <Modal.Header closeButton>
+                    <ModalTitle>Compralo Ya</ModalTitle>
+                </Modal.Header>
+                <ModalBody>
+                    <Container>
+                            <span className="font-weight-bold">Precio:</span> ${filteredProperty.price}<br />
+                                <span className="font-weight-bold">Vendedor: </span>{filteredProperty.name} <br />
+                        <Row>
+                            <Col md={4}>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/BTC_Logo.svg/183px-BTC_Logo.svg.png" width="170" alt="bitcoin" />
+                            </Col>
+                            <Col md={2}></Col>
+                            <Col md={4}>
+                                <img src="https://i.pinimg.com/736x/fa/89/9b/fa899be5c1fb3d211dddafe18b8e42bc.jpg" width="170" alt="bitcoin" />
+                            </Col>
+                        </Row>
+                    </Container>
+                </ModalBody>
+                <ModalFooter>
+                    <Button variant="secondary" onClick={handleClosePurchase}>Close</Button>
+                </ModalFooter>
+                </Modal>
+                </Fragment>
             ))}
+
+
         </section>
     );
 };

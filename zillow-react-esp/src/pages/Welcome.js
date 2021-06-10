@@ -5,6 +5,7 @@ import styles from '../css/Welcome.module.css';
 
 // components
 import HomeBody from '../components/HomeBody';
+import Crypto from '../components/Crypto';
 
 const Home = () => {
     return (
@@ -16,6 +17,7 @@ const Home = () => {
             </header>
 
             <HomeBody />
+            <Crypto />
         </div>  
     );
 };
