@@ -23,17 +23,17 @@ const Header = () => {
                 </Navbar.Brand>
 
                 <Nav className="ml-auto">
-                    <NavLink className='nav-link' to='/welcome'>Home</NavLink>
-                    <NavLink className='nav-link' to='/compra'>Buy</NavLink>
+                    <NavLink className='nav-link' to='/welcome'>Bienvenido</NavLink>
+                    <NavLink className='nav-link' to='/compra'>Comprar</NavLink>
                     {isLoggedIn && (
                         <NavLink className='nav-link' to='/vender'>Vender</NavLink>
                     )}
                     {/* <NavLink className='nav-link' to='/'>Contactar</NavLink> */}
                     {!isLoggedIn && (
-                        <NavLink className='nav-link' to='/auth'>Login</NavLink>
+                        <NavLink className='nav-link' to='/auth'>Iniciar sesion</NavLink>
                     )}
                     {isLoggedIn && (
-                        <Button variant="primary" onClick={logoutHandler}>Logout</Button>
+                        <Button variant="primary" onClick={logoutHandler}>Cerrar sesion</Button>
                     )}
                 </Nav>
             </Container>

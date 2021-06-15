@@ -85,23 +85,23 @@ const AuthForm = () => {
     return (
         <section>
             <Container>
-                <h1 className="text-center">{login ? 'Login' : 'Sign Up'}</h1>
+                <h1 className="text-center">{login ? 'Iniciar sesion' : 'Sign Up'}</h1>
                 <Form onSubmit={formSubmitHandler}>
                     <FormGroup>
-                        <FormLabel>Your Email</FormLabel>
+                        <FormLabel>E-mail</FormLabel>
                         <FormControl 
                             type="text"
-                            placeholder="Enter your email"
+                            placeholder="tu E-mail"
                             value={email}
                             onChange={emailChangeHandler}
                             required
                         />
                     </FormGroup>
                     <FormGroup>
-                        <FormLabel>Your Password</FormLabel>
+                        <FormLabel>Contrasena</FormLabel>
                         <FormControl 
                         type="password"
-                        placeholder="Enter your password"
+                        placeholder="Su contrasena"
                         value={password}
                         onChange={passwordChangeHandler}
                         required
