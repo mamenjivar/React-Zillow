@@ -14,9 +14,11 @@ const mapContainerStyle = {
     width: '50vw',
     height: '100vh'
 };
+
+// center of current map
 const center = {
-    lat: 34.052235,
-    lng: -118.243683
+    lat: 13.6929,
+    lng: -89.2182
 }
 const options = {
     disableDefaultUI: true,

@@ -30,6 +30,7 @@ const Vender = (props) => {
     const [enteredDescription, setEnteredDescription] = useState('');
     const [lat, setLat] = useState('');
     const [long, setLong] = useState('');
+    const [bitcoinAddress, setBitcoinAddress] = useState('');
     // ***********************************************************
 
     const [file, setFile] = useState('');
@@ -92,6 +93,10 @@ const Vender = (props) => {
         setValue(event.target.value);
     };
 
+    const bitcoinChangeHandler = (event) => {
+        setBitcoinAddress(event.target.value);
+    }
+
     // to submit image online to storage
     const uploadHandleChange = (event) => {
         // const file = event.target.files[0];
@@ -122,7 +127,8 @@ const Vender = (props) => {
             email: enteredEmail,
             phone: enteredPhone,
             description: enteredDescription,
-            image: imageURL
+            image: imageURL,
+            cryptoAddress: bitcoinAddress
         }
 
         console.log(submitNewProperty);
@@ -146,6 +152,7 @@ const Vender = (props) => {
         setEnteredPhone('');
         setValue('');
         setEnteredDescription('');
+        setBitcoinAddress('');
     };
 
     // ***********************************************************
@@ -161,16 +168,16 @@ const Vender = (props) => {
                 <h1>List Your Property</h1>
                 <Form onSubmit={onFormSubmitHandler}>
                     <FormGroup>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>Nombre</FormLabel>
                         <FormControl 
                             type="text" 
-                            placeholder="Enter your name"
+                            placeholder="Nombre"
                             value={enteredName}
                             onChange={nameChangeHandler}
                         />
                     </FormGroup>
                     <FormGroup>
-                        <FormLabel>Location</FormLabel>
+                        <FormLabel>Direccion</FormLabel>
                         <Combobox
                             onSelect={onSelectHandler}
                         >
@@ -197,50 +204,59 @@ const Vender = (props) => {
                         <GoogleMap ></GoogleMap>
                     </FormGroup>
                     <FormGroup>
-                        <FormLabel>Price</FormLabel>
+                        <FormLabel>Precio</FormLabel>
                         <FormControl 
                             type="text" 
-                            placeholder="Enter price of property"
+                            placeholder="Precio de la Propiedad"
                             value={enteredPrice}
                             onChange={priceChangeHandler}
                         />
                     </FormGroup>
                     <FormGroup>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>E-mail</FormLabel>
                         <FormControl
                             type="text" 
-                            placeholder="Enter email"
+                            placeholder="correo electronico"
                             value={enteredEmail}
                             onChange={emailChangeHandler}
                         />
                     </FormGroup>
                     <FormGroup>
-                        <FormLabel>Phone Number</FormLabel>
+                        <FormLabel>Numero de Telefono</FormLabel>
                         <FormControl 
                             type="text" 
-                            placeholder="Enter your phone number"
+                            placeholder="Ingrese su numero telefonico"
                             value={enteredPhone}
                             onChange={phoneChangeHandler}
                         />
                     </FormGroup>
                     <FormGroup>
-                        <FormLabel>Property Description</FormLabel>
+                        <FormLabel>Descripcion de propiedad</FormLabel>
                         <FormControl 
                             as="textarea" 
                             rows={3} 
-                            placeholder="Enter property description here"
+                            placeholder="Ingrese la descripcion de la propiedad"
                             value={enteredDescription}
                             onChange={descriptionChangeHandler}
                         />
                     </FormGroup>
                     <FormGroup>
-                        <FormLabel>Upload Images</FormLabel>
+                        <FormLabel>Direccion de Bitcoin</FormLabel>
+                        <FormControl 
+                            type="text"
+                            placeholder="entra su direccion de Bitcoin"
+                            value={bitcoinAddress}
+                            onChange={bitcoinChangeHandler}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <FormLabel>Subir Imagenes</FormLabel>
                         <FormControl
                             type="file"
                             onChange={uploadHandleChange}
                         />
                     </FormGroup>
-                    <Button variant="primary" type="submit">Submit</Button>
+                    <Button variant="primary" type="submit">Enviar</Button>
                 </Form>
             </Container>
 
@@ -249,10 +265,10 @@ const Vender = (props) => {
                     <ModalTitle>Gracias</ModalTitle>
                 </Modal.Header>
                 <ModalBody>
-                    <p>The form was successfully submitted!</p>
+                    <p>Su propriedad fue enviado!</p>
                 </ModalBody>
                 <ModalFooter>
-                        <Button variant="secondary" onClick={handleClose}>Close</Button>
+                        <Button variant="secondary" onClick={handleClose}>Cerrar</Button>
                 </ModalFooter>
             </Modal>
         </div>
